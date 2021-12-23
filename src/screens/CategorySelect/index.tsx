@@ -16,6 +16,8 @@ import {
 type Category = {
   key: string;
   name: string;
+  icon: string;
+  color: string;
 };
 
 interface CategorySelectProps {
@@ -35,7 +37,10 @@ export function CategorySelect(props: CategorySelectProps) {
         data={categories}
         keyExtractor={(item: any) => item.key}
         renderItem={({ item }: any) => (
-          <Category>
+          <Category
+            onPress={() => handleChosenCategory(item)}
+            isActive={category.key === item.key}
+          >
             <Icon name={item.icon} />
             <ItemName>{item.name}</ItemName>
           </Category>

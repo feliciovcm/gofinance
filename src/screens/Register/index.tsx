@@ -14,10 +14,19 @@ import {
   TransactionContianer
 } from "./styles";
 
+type Category = {
+  key: string;
+  name: string;
+  icon: string;
+  color: string;
+};
+
 export function Register(props: any) {
-  const [category, setCategory] = useState({
+  const [category, setCategory] = useState<Category>({
     key: "category",
     name: "Categoria",
+    icon: "any",
+    color: "#000000",
   });
   const [selectedTransactionType, setSelectedTransactionType] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +42,7 @@ export function Register(props: any) {
     setIsModalOpen(true);
   }
 
-  function handleChosenCategory(value: any) {
+  function handleChosenCategory(value: Category) {
     setCategory(value);
   }
 
@@ -60,7 +69,7 @@ export function Register(props: any) {
               isActive={selectedTransactionType === "outcome"}
             />
           </TransactionContianer>
-          <CustomSelect title="Categoria" onPress={handleOpenModal} />
+          <CustomSelect title={category.name} onPress={handleOpenModal} />
         </Fields>
         <Button title="Enviar" />
       </Form>
