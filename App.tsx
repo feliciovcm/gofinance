@@ -7,7 +7,8 @@ import AppLoading from "expo-app-loading";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./src/global/styles/theme";
-import { Register } from "./src/screens/Register";
+import { NavigationContainer } from '@react-navigation/native'
+import { AppRoutes } from "./src/routes/app.routes";
 
 
 
@@ -24,7 +25,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Register />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }

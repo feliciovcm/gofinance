@@ -4,6 +4,7 @@ import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { Feather } from "@expo/vector-icons";
 import { getBottomSpace } from "react-native-iphone-x-helper";
 import { FlatList } from "react-native";
+import { BorderlessButton } from 'react-native-gesture-handler'
 
 import { DataListProps } from "./Dashboard";
 
@@ -88,6 +89,8 @@ export const Title = styled.Text`
 
   margin-bottom: 16px;
 `;
+
+export const LogoutButton = styled(BorderlessButton)``
 
 export const TransactionList = styled(
   FlatList as new () => FlatList<DataListProps>

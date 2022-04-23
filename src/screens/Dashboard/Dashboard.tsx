@@ -16,6 +16,7 @@ import {
   Transactions,
   Title,
   TransactionList,
+  LogoutButton
 } from "./styles";
 
 export interface DataListProps extends DataItem {
@@ -65,7 +66,9 @@ export function Dashboard() {
               <UserName>Vitor</UserName>
             </User>
           </UserInfo>
-          <Icon name="power" />
+          <LogoutButton>
+            <Icon name="power" />
+          </LogoutButton>
         </UserWrapper>
       </Header>
       <HighlightCardsContainer>
