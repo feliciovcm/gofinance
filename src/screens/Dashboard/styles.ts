@@ -15,7 +15,7 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   width: 100%;
-  height: ${RFPercentage(42)}px;
+  height: ${RFPercentage(32)}px;
   justify-content: center;
   align-items: flex-start;
   flex-direction: row;
@@ -73,7 +73,7 @@ export const HighlightCardsContainer = styled.ScrollView.attrs({
 })`
   width: 100%;
   position: absolute;
-  margin-top: ${RFPercentage(20)}px;
+  margin-top: ${RFPercentage(18)}px;
 `;
 
 export const Transactions = styled.View`
@@ -100,3 +100,9 @@ export const TransactionList = styled(
     paddingBottom: getBottomSpace() + 16,
   },
 })``;
+
+export const LoadingContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`;

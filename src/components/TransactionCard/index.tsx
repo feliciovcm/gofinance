@@ -7,17 +7,19 @@ import {
   Category,
   Icon,
   CategoryName,
-  Date,
+  Date as DateComponent,
 } from "./styles";
+import { categories } from "../../utils/categories";
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+import { format } from "date-fns";
+
 
 export type DataItem = {
   type: "deposit" | "withdraw";
   title: string;
-  amount: string;
-  category: {
-    icon: string;
-    label: string;
-  };
+  amount: number;
+  category: string;
   date: string;
 };
 
@@ -29,20 +31,24 @@ export function TransactionCard(props: TransactionCardProps) {
   const {
     data: { amount, title, category, date, type },
   } = props;
+
+  const categoryType = categories.find(item => item.key === category)!;  
+  
+  
   return (
     <Container>
       <Title>{title}</Title>
       <Amount type={type}>
         {type === "withdraw" && "- "}
-        {amount}
+        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(amount))}
       </Amount>
 
       <Footer>
         <Category>
-          <Icon name={category.icon} />
-          <CategoryName>{category.label}</CategoryName>
+          <Icon name={categoryType.icon} />
+          <CategoryName>{categoryType.name}</CategoryName>
         </Category>
-        <Date>{date}</Date>
+        <DateComponent>{format(new Date(date), 'dd/MM/yyyy')}</DateComponent>
       </Footer>
     </Container>
   );

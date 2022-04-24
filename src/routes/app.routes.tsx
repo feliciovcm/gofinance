@@ -6,7 +6,13 @@ import { Register } from '../screens/Register';
 import { Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+export type RootStackParamList = {
+  Dashboard: undefined;
+  Cadastrar: undefined;
+};
+
+const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
+
 
 export function AppRoutes() {
   const theme = useTheme();
@@ -36,7 +42,6 @@ export function AppRoutes() {
       />
       <Screen
         name="Cadastrar"
-        component={Register}
         options={{
           tabBarIcon: ({color, size}) => (
             <MaterialIcons 
@@ -46,8 +51,10 @@ export function AppRoutes() {
             />
           ), 
         }}
-      />
-      <Screen 
+      >
+        {props => <Register {...props} />}
+      </Screen>
+      {/* <Screen 
         name="Resumo" 
         component={Register} 
         options={{
@@ -59,7 +66,7 @@ export function AppRoutes() {
             />
           ), 
         }}
-      />
+      /> */}
     </Navigator>
   )
 }

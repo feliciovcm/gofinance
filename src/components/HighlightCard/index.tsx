@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import {
   Container,
@@ -9,11 +9,13 @@ import {
   Amount,
   LastTransaction,
 } from "./styles";
+import { format } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR';
 
 interface HighlightCardProps {
   title: string;
-  amount: string;
-  lastTransaction: string;
+  amount: number;
+  lastTransaction: number;
   type: "up" | "down" | "total";
 }
 
@@ -26,6 +28,11 @@ export function HighlightCard(props: HighlightCardProps) {
     total: "dollar-sign",
   };
 
+  const lastDate = useMemo(() => {
+    if (lastTransaction === 0) return '';
+    return `Última entrada dia ${format(new Date(lastTransaction), "dd 'de' MMMM", { locale: ptBR })}`
+  }, [lastTransaction])
+
   return (
     <Container type={type}>
       <Header>
@@ -33,8 +40,8 @@ export function HighlightCard(props: HighlightCardProps) {
         <Icon name={icon[type]} type={type} />
       </Header>
       <Footer>
-        <Amount type={type}>{amount}</Amount>
-        <LastTransaction type={type}>{lastTransaction}</LastTransaction>
+        <Amount type={type}>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(amount))}</Amount>
+        <LastTransaction type={type}>{lastDate}</LastTransaction>
       </Footer>
     </Container>
   );

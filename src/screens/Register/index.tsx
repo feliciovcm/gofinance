@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { Button } from "../../components/Forms/Button";
 import { InputForm } from "../../components/Forms/InputForm";
@@ -16,6 +18,10 @@ import {
 } from "./styles";
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup"
+import { transactionsService } from "../../services/TransactionsStorageService";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../routes/app.routes";
+import { Transaction } from "../../utils/Transaction";
 
 type Category = {
   key: string;
@@ -29,6 +35,8 @@ interface FormData {
   amount: string;
 }
 
+type registerScreenProp = NavigationProp<RootStackParamList, 'Cadastrar'>;
+
 const schema = Yup.object().shape({
   name: Yup.string().required("Nome é obrigatório"),
   amount: Yup.number()
@@ -38,6 +46,9 @@ const schema = Yup.object().shape({
 })
 
 export function Register(props: any) {
+
+  const navigation = useNavigation<registerScreenProp>();
+
   const [category, setCategory] = useState<Category>({
     key: "category",
     name: "Categoria",
@@ -47,9 +58,9 @@ export function Register(props: any) {
   const [selectedTransactionType, setSelectedTransactionType] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { control, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+  const { control, handleSubmit, formState: { errors }, reset } = useForm({ resolver: yupResolver(schema) });
 
-  function handleChooseTransactionType(type: "income" | "outcome") {
+  function handleChooseTransactionType(type: "withdraw" | "deposit") {
     setSelectedTransactionType(type);
   }
 
@@ -65,20 +76,30 @@ export function Register(props: any) {
     setCategory(value);
   }
 
-  function handleRegister({name, amount}: FormData) {
+  async function handleRegister({name, amount}: FormData) {
     if (!selectedTransactionType) return Alert.alert("Ops!","Selecione o tipo da transação!")
     if (category.key === 'category') return Alert.alert("Ops!","Selecione a categoria!")
 
-    const data = {
-      name,
-      amount,
-      transactionType: selectedTransactionType,
-      category: category.key
-    }
+    const data = new Transaction(name, Number(amount), selectedTransactionType, category.key);
 
-    console.log(data);
+    try {
+      await transactionsService.setTransactions(data);
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Ops!", "Não foi possível salvar");
+    }
     
-  }  
+    reset();
+    setSelectedTransactionType("");
+    setCategory({
+      key: "category",
+      name: "Categoria",
+      icon: "any",
+      color: "#000000",
+    });
+
+    navigation.navigate('Dashboard');
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -106,14 +127,14 @@ export function Register(props: any) {
               <TransactionTypeButton
                 type="up"
                 title="Income"
-                onPress={() => handleChooseTransactionType("income")}
-                isActive={selectedTransactionType === "income"}
+                onPress={() => handleChooseTransactionType("deposit")}
+                isActive={selectedTransactionType === "deposit"}
               />
               <TransactionTypeButton
                 type="down"
                 title="Outcome"
-                onPress={() => handleChooseTransactionType("outcome")}
-                isActive={selectedTransactionType === "outcome"}
+                onPress={() => handleChooseTransactionType("withdraw")}
+                isActive={selectedTransactionType === "withdraw"}
               />
             </TransactionContianer>
             <CustomSelect title={category.name} onPress={handleOpenModal} />
