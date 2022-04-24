@@ -10,9 +10,9 @@ import {
   Date as DateComponent,
 } from "./styles";
 import { categories } from "../../utils/categories";
-import 'intl';
-import 'intl/locale-data/jsonp/pt-BR';
+
 import { format } from "date-fns";
+import { formatCurrency } from "../../utils/format-currency-amount";
 
 
 export type DataItem = {
@@ -40,7 +40,7 @@ export function TransactionCard(props: TransactionCardProps) {
       <Title>{title}</Title>
       <Amount type={type}>
         {type === "withdraw" && "- "}
-        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(amount))}
+        {formatCurrency(amount)}
       </Amount>
 
       <Footer>

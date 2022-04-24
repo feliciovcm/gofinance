@@ -5,10 +5,12 @@ import { Dashboard } from '../screens/Dashboard/Dashboard';
 import { Register } from '../screens/Register';
 import { Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Resume } from '../screens/Resume';
 
 export type RootStackParamList = {
   Dashboard: undefined;
   Cadastrar: undefined;
+  Resumo: undefined;
 };
 
 const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
@@ -54,9 +56,9 @@ export function AppRoutes() {
       >
         {props => <Register {...props} />}
       </Screen>
-      {/* <Screen 
+      <Screen 
         name="Resumo" 
-        component={Register} 
+        component={Resume} 
         options={{
           tabBarIcon: ({color, size}) => (
             <MaterialIcons 
@@ -66,7 +68,7 @@ export function AppRoutes() {
             />
           ), 
         }}
-      /> */}
+      />
     </Navigator>
   )
 }

@@ -1,5 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface ITransactions {
+  type: "deposit" | "withdraw";
+  title: string;
+  amount: number;
+  category: string;
+  date: string;
+  id: string;
+};
+
 export class TransactionsAsyncStorage {
   private dataKey = '@gofinance:transactions';
 
@@ -24,7 +33,7 @@ export class TransactionsAsyncStorage {
   async getTransactions() {
     const data = await AsyncStorage.getItem(this.dataKey);
 
-    const parseData = data ? JSON.parse(data) : [];
+    const parseData: ITransactions[] = data ? JSON.parse(data) : [];
 
     return parseData;
   }

@@ -11,6 +11,7 @@ import {
 } from "./styles";
 import { format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR';
+import { formatCurrency } from "../../utils/format-currency-amount";
 
 interface HighlightCardProps {
   title: string;
@@ -40,7 +41,7 @@ export function HighlightCard(props: HighlightCardProps) {
         <Icon name={icon[type]} type={type} />
       </Header>
       <Footer>
-        <Amount type={type}>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(amount))}</Amount>
+        <Amount type={type}>{formatCurrency(amount)}</Amount>
         <LastTransaction type={type}>{lastDate}</LastTransaction>
       </Footer>
     </Container>

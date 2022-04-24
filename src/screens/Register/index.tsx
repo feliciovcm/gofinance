@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import 'intl';
-import 'intl/locale-data/jsonp/pt-BR';
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { Button } from "../../components/Forms/Button";
 import { InputForm } from "../../components/Forms/InputForm";
