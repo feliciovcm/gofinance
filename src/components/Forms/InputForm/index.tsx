@@ -16,7 +16,7 @@ control,name, error,...rest
 
   return (
     <Container>
-      <Controller 
+      <Controller
         control={control}
         render={({ field: { onChange, onBlur, value} }) => (
           <Input onChangeText={onChange} value={value} onBlur={onBlur} {...rest} />

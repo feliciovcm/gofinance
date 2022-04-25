@@ -16,10 +16,10 @@ import {
 } from "./styles";
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup"
-import { transactionsService } from "../../services/TransactionsStorageService";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../routes/app.routes";
 import { Transaction } from "../../utils/Transaction";
+import { useTransactions } from "../../hooks/useTransactions";
 
 type Category = {
   key: string;
@@ -38,9 +38,9 @@ type registerScreenProp = NavigationProp<RootStackParamList, 'Cadastrar'>;
 const schema = Yup.object().shape({
   name: Yup.string().required("Nome é obrigatório"),
   amount: Yup.number()
-  .typeError("Informe um valor numérico")
-  .positive("O valor não pode ser negativo")
-  .required("O valor é obrigatório")
+    .typeError("Informe um valor numérico")
+    .positive("O valor não pode ser negativo")
+    .required("O valor é obrigatório")
 })
 
 export function Register(props: any) {
@@ -55,6 +55,8 @@ export function Register(props: any) {
   });
   const [selectedTransactionType, setSelectedTransactionType] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const transactionsService = useTransactions();
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm({ resolver: yupResolver(schema) });
 
@@ -74,9 +76,9 @@ export function Register(props: any) {
     setCategory(value);
   }
 
-  async function handleRegister({name, amount}: FormData) {
-    if (!selectedTransactionType) return Alert.alert("Ops!","Selecione o tipo da transação!")
-    if (category.key === 'category') return Alert.alert("Ops!","Selecione a categoria!")
+  async function handleRegister({ name, amount }: FormData) {
+    if (!selectedTransactionType) return Alert.alert("Ops!", "Selecione o tipo da transação!")
+    if (category.key === 'category') return Alert.alert("Ops!", "Selecione a categoria!")
 
     const data = new Transaction(name, Number(amount), selectedTransactionType, category.key);
 
@@ -86,7 +88,7 @@ export function Register(props: any) {
       console.log(error);
       Alert.alert("Ops!", "Não foi possível salvar");
     }
-    
+
     reset();
     setSelectedTransactionType("");
     setCategory({
@@ -109,10 +111,10 @@ export function Register(props: any) {
           <Fields>
             <InputForm
               placeholder="Nome"
-              name="name" 
-              control={control} 
-              autoCapitalize="sentences" 
-              error={errors?.name?.message} 
+              name="name"
+              control={control}
+              autoCapitalize="sentences"
+              error={errors?.name?.message}
             />
             <InputForm
               placeholder="Preço"
@@ -137,7 +139,7 @@ export function Register(props: any) {
             </TransactionContianer>
             <CustomSelect title={category.name} onPress={handleOpenModal} />
           </Fields>
-          <Button title="Enviar" onPress={handleSubmit(handleRegister)}/>
+          <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
         </Form>
         <Modal visible={isModalOpen}>
           <CategorySelect
@@ -148,6 +150,6 @@ export function Register(props: any) {
         </Modal>
       </Container>
     </TouchableWithoutFeedback>
-   
+
   );
 }

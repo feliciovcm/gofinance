@@ -1,14 +1,17 @@
+import React from "react";
+import AppLoading from "expo-app-loading";
+import { StatusBar } from 'react-native'
+import { ThemeProvider } from "styled-components";
+
 import {
   Poppins_400Regular,
   Poppins_500Medium,
   Poppins_700Bold, useFonts
 } from "@expo-google-fonts/poppins";
-import AppLoading from "expo-app-loading";
-import React from "react";
-import { ThemeProvider } from "styled-components";
+
 import theme from "./src/global/styles/theme";
-import { NavigationContainer } from '@react-navigation/native'
-import { AppRoutes } from "./src/routes/app.routes";
+import { AuthContextProvider } from "./src/contexts/AuthContext";
+import { Routes } from "./src/routes";
 
 
 
@@ -25,9 +28,10 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer>
+      <StatusBar barStyle="light-content" translucent backgroundColor={theme.colors.primary} />
+      <AuthContextProvider>
+        <Routes />
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

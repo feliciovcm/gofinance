@@ -10,7 +10,13 @@ interface ITransactions {
 };
 
 export class TransactionsAsyncStorage {
-  private dataKey = '@gofinance:transactions';
+  private dataKey: string = '';
+
+  constructor(
+    userId: string
+  ) {
+    this.dataKey = `@gofinance:transactions${userId}`
+  }
 
   async setTransactions(newData: any) {
     try {
@@ -47,6 +53,4 @@ export class TransactionsAsyncStorage {
       return Promise.reject(error)
     }
   }
-}
-
-export const transactionsService = new TransactionsAsyncStorage();
+};

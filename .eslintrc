@@ -1,0 +1,61 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "jest": true,
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "plugin:react-hooks/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "requireConfigFile": false
+  },
+  "plugins": ["react", "react-native", "jest", "import"],
+  "rules": {
+    "import/prefer-default-export": 0,
+    "react/jsx-filename-extension": 0,
+    "no-use-before-define": [
+      "error",
+      { "functions": false, "classes": true, "variables": true }
+    ],
+    "semi": "error",
+    "react-native/no-unused-styles": "error",
+    "react-native/no-inline-styles": "error",
+    "quotes": ["error", "single"],
+    "prefer-template": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          ["builtin", "external"],
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "alphabetize": { "order": "asc" }
+      }
+    ],
+    "no-param-reassign": "error",
+    "import/no-default-export": "error",
+    "indent": ["error", 2],
+    "eqeqeq": "error",
+    "no-unused-vars": "error"
+  }
+}
